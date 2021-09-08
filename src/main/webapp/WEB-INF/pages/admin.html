@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+    <style>
+        body{
+            background-color:#2F4F4F;
+            margin-top:0px;
+            margin-left:0px;
+        }
+    </style>
+</head>
+<body>
+<div th:switch="${users}">
+    <h2 th:case="null">Users table is clear!</h2>
+    <div th:case="*">
+        <h2>Users</h2>
+        <table>
+            <thread>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.age}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.password}"></td>
+                <td><a th:href="@{user_edit/{id}(id=${user.id})}">Edit</a></td>
+                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<form class="form-check-input" method="get" href="/logout" action="/logout">
+    <button class="btn btn-sm btn-primary btn-block" type="submit">Logout</button>
+</form>
+</body>
+</html>

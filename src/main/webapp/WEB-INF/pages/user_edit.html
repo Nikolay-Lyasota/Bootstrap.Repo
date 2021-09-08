@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>User edit</title>
+<style>
+    body{
+        background-color:#2F4F4F;
+        margin-top:0px;
+        margin-left:0px;
+    }
+</style>
+</head>
+<body>
+<div>
+<form action="#" th:action="@{/user_update/{id}(id=${user.id})}" th:object="${user}" method="post">
+    <label for="name">Name</label><br>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name"/><br>
+    <label for="age">Age</label><br>
+    <input type="number" th:field="*{age}" id="age" placeholder="Age"/><br>
+    <label for="email">Email</label><br>
+    <input type="text" th:field="*{email}" id="email" placeholder="Email"/><br><br>
+
+    <table>
+            <thread>
+                <tr>
+                    <th>Roles</th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each="role : ${roles}">
+                <td th:text="${role.role}"></td>
+            </tr>
+            </tbody>
+        </table>
+    <input type="submit" value="Edit User">
+
+</form>
+</div>
+    <a th:href="@{/do_admin/{id}(id=${user.id})}">Do admin</a>
+</body>
+</html>

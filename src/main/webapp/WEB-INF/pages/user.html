@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>User`s page</title>
+    <style>
+        body{
+            background-color:#2F4F4F;
+            margin-top:0px;
+            margin-left:0px;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.age}"></td>
+        <td th:text="${user.email}"></td>
+    </tr>
+    </tbody>
+</table>
+<form class="form-check-input" method="get" href="/logout" action="/logout">
+    <button class="btn btn-sm btn-primary btn-block" type="submit">Logout</button>
+</form>
+</body>
+</html>

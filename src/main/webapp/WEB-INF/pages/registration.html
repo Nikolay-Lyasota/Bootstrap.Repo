@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Add user</title>
+    <style>
+        body{
+            background-color:#2F4F4F;
+            margin-top:0px;
+            margin-left:0px;
+        }
+    </style>
+</head>
+<body>
+<form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <label for="age">Age</label>
+    <input type="text" th:field="*{age}" id="age" placeholder=2>
+    <label for="email">Email</label>
+    <input type="text" th:field="*{email}" id="email" placeholder="Email">
+    <label for="email">Password</label>
+    <input type="text" th:field="*{password}" id="password" placeholder="password">
+    <label for="email">Email</label>
+    <input type="submit" value="Registration">
+</form>
+<form class="form-check-input" method="get" href="/logout" action="/logout">
+    <button class="btn btn-sm btn-primary btn-block" type="submit">Logout</button>
+</form>
+</body>
+</html>
