@@ -19,17 +19,17 @@ import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:hiberanddb.properties")
+@PropertySource("classpath:hibernate.properties")
 @ComponentScan("web")
 @EnableTransactionManagement
 public class HibernateConfig {
-    private final String HIBERNATE_SHOW_SQL = "hibernate.show_sql";
-    private final String HIBERNATE_HBM2DLL_AUTO = "hibernate.hbm2ddl.auto";
-    private final String HIBERNATE_MYSQL_DIALECT = "hibernate.dialect";
-    private final String DB_DRIVER = "db.driver";
-    private final String DB_USERNAME = "db.username";
-    private final String DB_PASSWORD = "db.password";
-    private final String DB_URL = "db.url";
+    private static final String HIBERNATE_SHOW_SQL = "hibernate.show_sql";
+    private static final String HIBERNATE_HBM2DLL_AUTO = "hibernate.hbm2ddl.auto";
+    private static final String HIBERNATE_MYSQL_DIALECT = "hibernate.dialect";
+    private static final String DB_DRIVER = "db.driver";
+    private static final String DB_USERNAME = "db.username";
+    private static final String DB_PASSWORD = "db.password";
+    private static final String DB_URL = "db.url";
 
     @Autowired
     private Environment env;
