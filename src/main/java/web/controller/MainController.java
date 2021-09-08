@@ -41,22 +41,11 @@ public class MainController {
     @PostMapping("/registration")
     public String registerUser(User user) {
         Role roleUser = roleService.getRoleByName("USER");
-
         if (roleUser == null) {
             roleUser = new Role();
             roleUser.setRole("USER");
         }
         user.getRoles().add(roleUser);
-
-//        Role roleAdmin= roleService.getRoleByName("ADMIN");
-//
-//        if (roleAdmin == null) {
-//            roleAdmin = new Role();
-//            roleAdmin.setRole("ADMIN");
-//        }
-//
-//        user.getRoles().add(roleAdmin);
-
         userService.saveUser(user);
         return "redirect:/registration";
     }
@@ -67,10 +56,6 @@ public class MainController {
         modelUsers.addAttribute("users", users);
         return "admin";
     }
-
-
-
-
 
     @GetMapping(value = "/user")
     public String currentUser(@AuthenticationPrincipal User user, Model model) {
@@ -90,7 +75,7 @@ public class MainController {
     public String editUserForm(@PathVariable("id") Long id, ModelMap model) {
         User user = userService.getUser(id);
         Set<Role> roles = user.getRoles();
-        model.addAllAttributes(Map.of("user",user,"roles",roles));
+        model.addAllAttributes(Map.of("user", user, "roles", roles));
         return "user_edit";
     }
 
@@ -111,7 +96,7 @@ public class MainController {
     @GetMapping("/do_admin/{id}")
     public String doEdit(@PathVariable("id") Long id) {
         User userWithoutAdminRole = userService.getUser(id);
-        Role roleAdmin= roleService.getRoleByName("ADMIN");
+        Role roleAdmin = roleService.getRoleByName("ADMIN");
         if (roleAdmin == null) {
             roleAdmin = new Role();
             roleAdmin.setRole("ADMIN");
