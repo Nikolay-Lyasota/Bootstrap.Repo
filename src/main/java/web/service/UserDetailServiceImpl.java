@@ -5,13 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import web.Dao.UserDao;
+import web.dao.UserDao;
 import web.model.User;
 
-import java.util.ArrayList;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 @Service
 @RequiredArgsConstructor
