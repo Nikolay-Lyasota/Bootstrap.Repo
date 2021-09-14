@@ -6,6 +6,7 @@ import web.model.Role;
 import web.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface UserService  {
@@ -21,4 +22,6 @@ public interface UserService  {
     User findByUsername(String username);
 
     void updateUser(User user);
+
+    void updateUser(User user, String role, Long id);
 }

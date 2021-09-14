@@ -25,5 +25,9 @@ public class RoleService {
         map.put(role,roleByName);
         return roleByName;
     }
+
+    public List<Role> getAllRoles() {
+       return roleDao.getAllRoles();
+    }
 }
 

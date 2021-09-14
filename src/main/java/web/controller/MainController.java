@@ -5,11 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
@@ -42,12 +38,6 @@ public class MainController {
 
     @PostMapping("/registration")
     public String registerUser(User user) {
-        Role roleUser = roleService.getRoleByName("USER");
-        if (roleUser == null) {
-            roleUser = new Role();
-            roleUser.setRole("USER");
-        }
-        user.getRoles().add(roleUser);
         userService.saveUser(user);
         return "redirect:/registration";
     }
@@ -73,19 +63,19 @@ public class MainController {
         return "user";
     }
 
+
     @GetMapping("/user_edit/{id}")
     public String editUserForm(@PathVariable("id") Long id, ModelMap model) {
         User user = userService.getUser(id);
-        Set<Role> roles = user.getRoles();
-        model.addAllAttributes(Map.of("user", user, "roles", roles));
+        List<Role> allRoles = roleService.getAllRoles();
+        Set<Role> userRoles = user.getRoles();
+        model.addAllAttributes(Map.of("user", user, "roles", userRoles, "allRoles", allRoles));
         return "user_edit";
     }
 
     @PostMapping("/user_update/{id}")
-    public String updateUser(@PathVariable Long id, User user) {
-        User hiberUser = userService.getUser(id);
-        hiberUser.update(user);
-        userService.updateUser(hiberUser);
+    public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user, @RequestParam(value = "selectedRole", required = false) String selectedRole) {
+        userService.updateUser(user,selectedRole, id);
         return "redirect:/admin";
     }
 
@@ -94,19 +84,5 @@ public class MainController {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
-
-    @GetMapping("/do_admin")
-    public String doEdit(@RequestParam Long id) {
-        User userWithoutAdminRole = userService.getUser(id);
-        Role roleAdmin = roleService.getRoleByName("ADMIN");
-        if (roleAdmin == null) {
-            roleAdmin = new Role();
-            roleAdmin.setRole("ADMIN");
-        }
-        userWithoutAdminRole.getRoles().add(roleAdmin);
-        userService.updateUser(userWithoutAdminRole);
-        return "redirect:/admin";
-    }
-
 }
 

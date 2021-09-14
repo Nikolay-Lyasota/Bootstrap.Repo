@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import web.dao.UserDao;
+import web.model.Role;
 import web.model.User;
 
 import java.util.List;
@@ -13,6 +14,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -32,6 +36,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        Role roleUser = roleService.getRoleByName("USER");
+        if (roleUser == null) {
+            roleUser = new Role();
+            roleUser.setRole("USER");
+        }
+        user.getRoles().add(roleUser);
         String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         userDao.saveUser(user);
@@ -50,5 +60,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) {
         userDao.updateUser(user);
+    }
+
+    @Override
+    public void updateUser(User user, String role, Long id) {
+        User hiberUser = getUser(id);
+        hiberUser.setName(user.getName());
+        hiberUser.setAge(user.getAge());
+        hiberUser.setEmail(user.getEmail());
+        if (role != null) {
+            hiberUser.getRoles().add(roleService.getRoleByName(role));
+        }
+        userDao.updateUser(hiberUser);
     }
 }
