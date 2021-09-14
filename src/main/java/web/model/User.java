@@ -53,7 +53,7 @@ public class User implements UserDetails {
             try {
                 Object o = declaredField.get(user);
                 if (o != null) {
-                    declaredField.set(this,o);
+                    declaredField.set(this, o);
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

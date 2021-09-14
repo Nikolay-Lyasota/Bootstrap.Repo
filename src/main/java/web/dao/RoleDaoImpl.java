@@ -14,7 +14,6 @@ class RoleDaoImpl {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     public Role getSingleRoleByName(String role) {
         return entityManager
                 .createQuery("SELECT r FROM Role as r WHERE r.role =: role", Role.class)

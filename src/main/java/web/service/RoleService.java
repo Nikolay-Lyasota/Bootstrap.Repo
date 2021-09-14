@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import web.dao.RoleDaoImpl;
 import web.model.Role;
 
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.WeakHashMap;
 
 @Service
 public class RoleService {
@@ -18,16 +20,16 @@ public class RoleService {
 
     public Role getRoleByName(String role) {
         Role thisRole = map.get(role);
-        if(Objects.nonNull(thisRole)) {
+        if (Objects.nonNull(thisRole)) {
             return thisRole;
         }
         Role roleByName = roleDao.getSingleRoleByName(role);
-        map.put(role,roleByName);
+        map.put(role, roleByName);
         return roleByName;
     }
 
     public List<Role> getAllRoles() {
-       return roleDao.getAllRoles();
+        return roleDao.getAllRoles();
     }
 }
 

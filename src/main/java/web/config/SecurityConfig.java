@@ -23,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessHandler successHandler;
     private final UserDetailsService userDetailsService;
 
-
     @Lazy
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,11 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/login").anonymous()
                 .antMatchers("/user").hasAuthority("USER")
-                .antMatchers("/admin","/user_edit","/user_delete").hasAuthority("ADMIN")
+                .antMatchers("/admin", "/user_edit", "/user_delete").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
                 .successHandler(successHandler)
-            .and().logout();
+                .and().logout();
     }
 }

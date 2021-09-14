@@ -2,14 +2,12 @@ package web.service;
 
 
 import org.springframework.stereotype.Service;
-import web.model.Role;
 import web.model.User;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
-public interface UserService  {
+public interface UserService {
 
     List<User> getUsersList();
 
