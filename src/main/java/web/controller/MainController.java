@@ -16,10 +16,10 @@ import java.util.Map;
 public class MainController {
 
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
 
     @GetMapping(value = "/login")

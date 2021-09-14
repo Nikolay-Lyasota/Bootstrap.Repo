@@ -12,7 +12,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public List<User> getUsersList() {
@@ -30,7 +30,6 @@ public class UserDaoImpl implements UserDao {
     @Transactional
     @Override
     public void saveUser(User user) {
-//        entityManager.unwrap(Session.class).save(user);
         entityManager.merge(user);
     }
 
