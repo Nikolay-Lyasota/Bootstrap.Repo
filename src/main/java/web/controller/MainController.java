@@ -59,8 +59,8 @@ public class MainController {
         return "user_edit";
     }
 
-    @PostMapping("/user_update/{id}")
-    public String updateUser(@PathVariable Long id,
+    @PostMapping("/user_update")
+    public String updateUser(@RequestParam(value = "userId") Long id,
                              @ModelAttribute("user") User user,
                              @RequestParam(value = "selectedRole", required = false) String selectedRole) {
         userService.updateUser(user, selectedRole, id);

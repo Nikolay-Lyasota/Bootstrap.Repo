@@ -13,7 +13,9 @@
 </head>
 <body>
 <div>
-    <form action="#" th:action="@{/user_update/{id}(id=${user.id})}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/user_update}" th:object="${user}" method="post">
+        <label for="id">Id</label>
+        <input readonly type="number" th:name="userId" th:value="${user.id}" id="id" placeholder="Id"><br/>
         <label for="name">Name</label><br>
         <input type="text" th:field="*{name}" id="name" placeholder="Name"/><br>
         <label for="age">Age</label><br>
@@ -21,16 +23,12 @@
         <label for="email">Email</label><br>
         <input type="text" th:field="*{email}" id="email" placeholder="Email"/><br><br>
         <div>
-            <thread>
-                <tr>
-                    <th>Roles: </th>
-                </tr>
-            </thread>
-            <tbody>
+            <tr>
+                <th>Roles:</th>
+            </tr>
             <tr th:each="role : ${roles}">
                 <td th:text="${role.role}"></td>
             </tr>
-            </tbody>
         </div>
         <div>
             <td>Add role to user</td>
