@@ -34,8 +34,8 @@
                 <td th:text="${user.age}"></td>
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.password}"></td>
-                <td><a th:href="@{user_edit/{id}(id=${user.id})}">Edit</a></td>
-                <td><a th:href="@{user_delete/{id}(id=${user.id})}">Delete</a></td>
+                <td><a th:href="@{user_edit(id=${user.id})}">Edit</a></td>
+                <td><form th:action="@{user_delete(id=${user.id})}" th:method="post"><button type="submit" >Delete</button></form></td>
             </tr>
             </tbody>
         </table>

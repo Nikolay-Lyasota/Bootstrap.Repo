@@ -52,8 +52,8 @@ public class MainController {
     }
 
 
-    @GetMapping("/user_edit/{id}")
-    public String editUserForm(@PathVariable("id") Long id, ModelMap model) {
+    @GetMapping("/user_edit")
+    public String editUserForm(@RequestParam Long id, ModelMap model) {
         User user = userService.getUser(id);
         model.addAllAttributes(Map.of("user", user, "roles", user.getRoles(), "allRoles", roleService.getAllRoles()));
         return "user_edit";
@@ -67,8 +67,8 @@ public class MainController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/user_delete/{id}")
-    public String removeUser(@PathVariable("id") Long id) {
+    @PostMapping("/user_delete")
+    public String removeUser(@RequestParam Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }

@@ -13,7 +13,7 @@
 </head>
 <body>
 <div>
-    <form action="#" th:action="@{/user_update}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/user_update}" th:object="${user}" th:value="${user.id}" method="post">
         <label for="id">Id</label>
         <input readonly type="number" th:name="userId" th:value="${user.id}" id="id" placeholder="Id"><br/>
         <label for="name">Name</label><br>
