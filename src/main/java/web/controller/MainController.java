@@ -21,7 +21,6 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping(value = "/login")
     public String getLoginPage() {
         return "login";

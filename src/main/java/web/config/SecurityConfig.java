@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import web.hanlder.SuccessHandler;
 
-
 @Configuration
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
