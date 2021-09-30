@@ -28,7 +28,7 @@
 <!--Main container-->
 <div class="container-fluid">
     <div class="row">
-            <div class="col-sm-1 mt-2 ">
+            <div class="col-sm-2 mt-3" role="tablist" >
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="/admin">Admin</a>
@@ -42,9 +42,8 @@
 
 
     <!--  Toggleable Tabs      -->
-        <div class="col-sm-8 ">
-        <h2>Admins panel</h2>
-        <br>
+        <div class="col-sm-8 mt-3">
+        <h2>Admin panel</h2>
         <div class="col-sm">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
@@ -62,16 +61,18 @@
                                 <div th:switch="${users}">
                                     <h2 th:case="null">Users table is clear!</h2>
                                     <div th:case="*">
-                                        <h2>All users</h2>
+
                                         </p>
                                         <table class="table table-striped">
                                             <thread>
+                                                <h2>All users</h2>
                                                 <tr>
-                                                    <th>Id</th>
-                                                    <th>Name</th>
-                                                    <th>Age</th>
-                                                    <th>Email</th>
-                                                    <th>Roles</th>
+                                                    <th th:text="uzerz"></th>
+                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Age</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Roles</th>
                                                 </tr>
                                             </thread>
                                             <tbody>
@@ -95,7 +96,7 @@
                             </div>
                         </div>
                 </div>
-                <div id="newUser" class="container tab-pane fade"><br>
+                <div id="newUser" class="container tab-pane"><br>
                     <h3>New user</h3>
                     <p>
                     <form action="#" th:action="@{/admin}" th:object="${newUser}" method="post">

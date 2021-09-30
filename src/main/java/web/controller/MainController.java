@@ -56,6 +56,7 @@ public class MainController {
     @GetMapping(value = "/user")
     public String currentUser(@AuthenticationPrincipal User principal, Model model) {
         model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
+
         model.addAttribute("user", principal);
         return "user";
     }

@@ -28,17 +28,45 @@
 <!--Main container-->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-1 mt-2 ">
+        <div class="col-sm-2 mt-2 ">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/admin" sec:authorize="hasAuthority('ADMIN')" >Admin</a>
+                    <a class="nav-link" href="/admin" sec:authorize="hasAuthority('ADMIN')" >Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user" sec:authorize="hasAuthority('USER')">User</a>
+                    <a class="nav-link active" href="/user" sec:authorize="hasAuthority('USER')">User</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://youtu.be/MWCEtwb53go?t=6">DIMOOON</a>
                 </li>
             </ul>
             <hr class="d-sm-none">
         </div>
+        <div class="col-sm-8">
+            <table class="table table-striped mt-5">
+
+                <h2>User information-page</h2>
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Roles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.age}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.getRoles()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
         <!--  Toggleable Tabs      -->
