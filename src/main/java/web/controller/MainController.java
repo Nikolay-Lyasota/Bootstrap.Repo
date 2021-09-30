@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import web.dto.PrincipalDto;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
@@ -26,27 +27,36 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/registration")
-    public String registration(Model model) {
-        model.addAttribute("user", new User());
-        return "registration";
-    }
-
-    @PostMapping("/registration")
-    public String registerUser(User user) {
-        userService.saveUser(user);
-        return "redirect:/registration";
-    }
+//    @GetMapping("/registration")
+//    public String registration(Model model) {
+//        model.addAttribute("user", new User());
+//        return "registration";
+//    }
+//
+//    @PostMapping("/registration")
+//    public String registerUser(User user) {
+//        userService.saveUser(user);
+//        return "redirect:/registration";
+//    }
 
     @GetMapping(value = "/admin")
-    public String allUsers(Model modelUsers) {
+    public String allUsers(@AuthenticationPrincipal User principal, Model modelUsers, User newUser) {
+        modelUsers.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
         modelUsers.addAttribute("users", userService.getUsersList());
+        modelUsers.addAttribute("newUser",newUser);
         return "admin";
     }
 
+    @PostMapping("/admin")
+    public String newUser(User newUser) {
+        userService.saveUser(newUser);
+        return "redirect:/admin";
+    }
+
     @GetMapping(value = "/user")
-    public String currentUser(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
+    public String currentUser(@AuthenticationPrincipal User principal, Model model) {
+        model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
+        model.addAttribute("user", principal);
         return "user";
     }
 

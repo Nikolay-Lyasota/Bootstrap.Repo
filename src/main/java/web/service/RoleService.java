@@ -31,5 +31,6 @@ public class RoleService {
     public List<Role> getAllRoles() {
         return roleDao.getAllRoles();
     }
+
 }
 

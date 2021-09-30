@@ -1,37 +1,121 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>User`s page</title>
-    <style>
-        body{
-            background-color:#2F4F4F;
-            margin-top:0px;
-            margin-left:0px;
-        }
-    </style>
+    <title>Admin page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Email</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.age}"></td>
-        <td th:text="${user.email}"></td>
-    </tr>
-    </tbody>
-</table>
-<form class="form-check-input" method="get" href="/logout" action="/logout">
-    <button class="btn btn-sm btn-primary btn-block" type="submit">Logout</button>
-</form>
+<!--Navbar-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+        <div class="navbar-text font-weight-bold mr-1" th:text="${dto.getEmail()}">USERNAME</div>
+        <div class="navbar-text mr-1">with roles:</div>
+        <div class="navbar-text mr-1" th:text="${dto.getRoles()}"> ROLES</div>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+    </ul>
+</nav>
+<!--Main container-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-1 mt-2 ">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin" sec:authorize="hasAuthority('ADMIN')" >Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user" sec:authorize="hasAuthority('USER')">User</a>
+                </li>
+            </ul>
+            <hr class="d-sm-none">
+        </div>
+
+
+        <!--  Toggleable Tabs      -->
+<!--        <div class="col-sm-8 ">-->
+<!--            <h2>Users panel</h2>-->
+<!--            <br>-->
+<!--            <div class="col-sm">-->
+<!--                <ul class="nav nav-tabs" role="tablist">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" data-toggle="tab" href="#newUser">New User</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                &lt;!&ndash; Tab panes &ndash;&gt;-->
+<!--                <div class="tab-content">-->
+<!--                    <div id="userstable" class="container tab-pane active"><br>-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-sm-8">-->
+<!--                                <div th:switch="${users}">-->
+<!--                                    <h2 th:case="null">Users table is clear!</h2>-->
+<!--                                    <div th:case="*">-->
+<!--                                        <h2>All users</h2>-->
+<!--                                        </p>-->
+<!--                                        <table class="table table-striped">-->
+<!--                                            <thread>-->
+<!--                                                <tr>-->
+<!--                                                    <th>Id</th>-->
+<!--                                                    <th>Name</th>-->
+<!--                                                    <th>Age</th>-->
+<!--                                                    <th>Email</th>-->
+<!--                                                    <th>Roles</th>-->
+<!--                                                </tr>-->
+<!--                                            </thread>-->
+<!--                                            <tbody>-->
+<!--                                            <tr th:each="user : ${users}">-->
+<!--                                                <td th:text="${user.id}"></td>-->
+<!--                                                <td th:text="${user.name}"></td>-->
+<!--                                                <td th:text="${user.age}"></td>-->
+<!--                                                <td th:text="${user.email}"></td>-->
+<!--                                                <td th:text="${user.getRoles()}"></td>-->
+<!--                                                <td><a th:href="@{user_edit(id=${user.id})}">Edit</a></td>-->
+<!--                                                <td>-->
+<!--                                                    <form th:action="@{user_delete(id=${user.id})}" th:method="post">-->
+<!--                                                        <button type="submit">Delete</button>-->
+<!--                                                    </form>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                            </tbody>-->
+<!--                                        </table>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div id="newUser" class="container tab-pane fade"><br>-->
+<!--                        <h3>New user</h3>-->
+<!--                        <p>-->
+<!--                        <form action="#" th:action="@{/admin}" th:object="${newUser}" method="post">-->
+<!--                            <label for="name">Name</label>-->
+<!--                            <input type="text" th:field="*{name}" id="name" placeholder="Name">-->
+<!--                            <label for="age">Age</label>-->
+<!--                            <input type="text" th:field="*{age}" id="age" placeholder=2>-->
+<!--                            <label for="email">Email</label>-->
+<!--                            <input type="text" th:field="*{email}" id="email" placeholder="Email">-->
+<!--                            <label for="email">Password</label>-->
+<!--                            <input type="text" th:field="*{password}" id="password" placeholder="password">-->
+<!--                            <label for="email">Email</label>-->
+<!--                            <input type="submit" value="Registration">-->
+<!--                        </form>-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>
 </body>
 </html>
