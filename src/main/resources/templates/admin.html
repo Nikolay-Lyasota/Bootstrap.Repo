@@ -28,41 +28,42 @@
 <!--Main container-->
 <div class="container-fluid">
     <div class="row">
-            <div class="col-sm-2 mt-2" role="tablist" >
-                <ul class="nav nav-pills flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/admin">Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user">User</a>
-                    </li>
-                </ul>
-            </div>
-    <!--  Toggleable Tabs      -->
-        <div class="col-sm-9">
-        <h1>Admin panel</h1>
-        <div class="align-self-center">
-            <ul class="nav nav-tabs" role="tablist">
+        <div class="col-sm-2 mt-2" role="tablist">
+            <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
+                    <a class="nav-link active" href="/admin">Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#newUser">New User</a>
+                    <a class="nav-link" href="/user">User</a>
                 </li>
             </ul>
         </div>
-            <!-- Tab panes -->
-            <div class="card">
+        <!--  Toggleable Tabs      -->
+        <div class="col-sm-9 bg-light text-dark">
             <div class="tab-content">
-                <div id="userstable" class="container tab-pane active"><br>
-                        <div class="row">
-                            <div class="col-sm-8 bg-light text-dark">
-                                <div th:switch="${users}">
-                                    <h2 th:case="null">Users table is clear!</h2>
-                                    <div th:case="*">
+                <h1>Admin panel</h1>
+
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#newUser">New User</a>
+                    </li>
+                </ul>
+                <hr class="d-sm-none">
+
+                <!-- Tab panes -->
+                <div role="tabpanel" id="userstable" class="tab-pane active"><br>
+                    <div class="card">
+                        <h4 class="card-header text-left font-weight-bold text-uppercase py-4">All Users</h4>
+                        <div class="card-body">
+                            <div th:switch="${users}">
+                                <h2 th:case="null">Users table is clear!</h2>
+                                <div th:case="*">
+                                    <div class="card-body">
                                         <table class="table table-striped">
                                             <thread>
-                                                <h2>All users</h2>
                                                 <tr>
                                                     <th scope="col">Id</th>
                                                     <th scope="col">Name</th>
@@ -80,12 +81,22 @@
                                                 <td th:text="${user.age}"></td>
                                                 <td th:text="${user.email}"></td>
                                                 <td th:text="${user.getRoles()}"></td>
-                                                <td><a role="button" class="btn btn-info" th:href="@{user_edit(id=${user.id})}">Edit</a></td>
+
+                                                <!-- MODAL EDIT -->
+
+                                                <td><a role="button" class="btn btn-info"
+                                                       th:href="@{user_edit(id=${user.id})}">Edit</a></td>
+
+
+                                                <!--MODAL DELETE-->
                                                 <td>
                                                     <form th:action="@{user_delete(id=${user.id})}" th:method="post">
                                                         <button type="submit" class="btn btn-danger">Delete</button>
                                                     </form>
                                                 </td>
+
+                                                <!--  MODALS  -->
+
                                             </tr>
                                             </tbody>
                                         </table>
@@ -93,26 +104,50 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
-                <div id="newUser" class="container tab-pane"><br>
-                    <h3>New user</h3>
-                    <p>
-                    <form action="#" th:action="@{/admin}" th:object="${newUser}" method="post">
-                        <label for="name">Name</label>
-                        <input type="text" th:field="*{name}" id="name" placeholder="Name">
-                        <label for="age">Age</label>
-                        <input type="text" th:field="*{age}" id="age" placeholder=2>
-                        <label for="email">Email</label>
-                        <input type="text" th:field="*{email}" id="email" placeholder="Email">
-                        <label for="email">Password</label>
-                        <input type="text" th:field="*{password}" id="password" placeholder="password">
-                        <label for="email">Email</label>
-                        <input type="submit" value="Registration">
-                    </form>
-                    </p>
+                <div role="tabpanel" id="newUser" class="tab-pane"><br>
+                    <div class="card">
+                        <h4 class="card-header text-left font-weight-bold text-uppercase py-4">Add new user</h4>
+                        <div class="card-body">
+                            <p>
+                            <form th:action="@{/add}" method="post">
+                                <div th:object="${newUser}">
+                                    <p>
+                                        <label for="name">Name</label>
+                                        <input type="text" th:field="*{name}" id="name" placeholder="Name">
+                                    </p>
+                                    <p>
+                                        <label for="age">Age</label>
+                                        <input type="number" th:field="*{age}" id="age" placeholder=2>
+                                    </p>
+                                    <p>
+                                        <label for="email">Email</label>
+                                        <input type="text" th:field="*{email}" id="email" placeholder="Email">
+                                    </p>
+                                    <p>
+                                        <label for="email">Password</label>
+                                        <input type="text" th:field="*{password}" id="password" placeholder="password">
+                                    </p>
+                                </div>
+                                <p>
+                                <div>
+                                    <label for="selectRoles">Select role:</label>
+                                    <select multiple size="2" name="roles" class="form-control" id="selectRoles">
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="USER">USER</option>
+                                    </select>
+                                </div>
+                                </p>
+                                <p>
+                                    <input type="submit" class="btn btn-success" value="Add new user">
+                                </p>
+                            </form>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>

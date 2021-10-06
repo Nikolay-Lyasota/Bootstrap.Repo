@@ -6,12 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import web.converter.UserConverter;
 import web.dto.PrincipalDto;
+import web.dto.UserDto;
+import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class MainController {
@@ -21,6 +27,9 @@ public class MainController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserConverter userConverter;
 
     @GetMapping(value = "/login")
     public String getLoginPage() {
@@ -40,15 +49,25 @@ public class MainController {
 //    }
 
     @GetMapping(value = "/admin")
-    public String allUsers(@AuthenticationPrincipal User principal, Model modelUsers, User newUser) {
-        modelUsers.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
-        modelUsers.addAttribute("users", userService.getUsersList());
-        modelUsers.addAttribute("newUser",newUser);
+    public String allUsers(@AuthenticationPrincipal User principal, Model model, User newUser) {
+        model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
+        model.addAttribute("users", userService.getUsersList());
+        model.addAttribute("newUser",newUser);
+        model.addAttribute("rolesList",List.of("USER","ADMIN"));
         return "admin";
     }
 
-    @PostMapping("/admin")
-    public String newUser(User newUser) {
+    @PostMapping("/add")
+    public String newUser(/*@RequestParam("roles") String[] roles, User newUser*/UserDto userDto) {
+//        for(String stringRole : roles) {
+//            Role roleFromDb = roleService.getRoleByName(stringRole);
+//            if(roleFromDb != null) {
+//                System.out.println(stringRole);
+//                 newUser.setRoles(stringRole);
+//            }
+//        }
+        System.out.println(userDto);
+        User newUser = userConverter.convertDtoToUser(userDto);
         userService.saveUser(newUser);
         return "redirect:/admin";
     }
@@ -56,7 +75,6 @@ public class MainController {
     @GetMapping(value = "/user")
     public String currentUser(@AuthenticationPrincipal User principal, Model model) {
         model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
-
         model.addAttribute("user", principal);
         return "user";
     }

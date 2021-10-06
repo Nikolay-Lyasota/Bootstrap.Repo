@@ -33,12 +33,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        Role roleUser = roleService.getRoleByName("USER");
-        if (roleUser == null) {
-            roleUser = new Role();
-            roleUser.setRole("USER");
-        }
-        user.getRoles().add(roleUser);
         String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
         userDao.saveUser(user);
