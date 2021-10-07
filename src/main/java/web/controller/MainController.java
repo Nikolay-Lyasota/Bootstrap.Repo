@@ -58,14 +58,7 @@ public class MainController {
     }
 
     @PostMapping("/add")
-    public String newUser(/*@RequestParam("roles") String[] roles, User newUser*/UserDto userDto) {
-//        for(String stringRole : roles) {
-//            Role roleFromDb = roleService.getRoleByName(stringRole);
-//            if(roleFromDb != null) {
-//                System.out.println(stringRole);
-//                 newUser.setRoles(stringRole);
-//            }
-//        }
+    public String newUser(UserDto userDto) {
         System.out.println(userDto);
         User newUser = userConverter.convertDtoToUser(userDto);
         userService.saveUser(newUser);
