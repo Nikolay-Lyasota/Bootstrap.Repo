@@ -26,13 +26,16 @@ public class UserConverter {
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
 
-        for (String role : dto.getRoles()) {
-            Role roleFromDb = roleService.getRoleByName(role);
-            if (roleFromDb != null) {
-                roleSet.add(roleFromDb);
+        if(dto.getRoles() != null) {
+            for (String role : dto.getRoles()) {
+                Role roleFromDb = roleService.getRoleByName(role);
+                if (roleFromDb != null) {
+                    roleSet.add(roleFromDb);
+                }
+                user.setRoles(roleSet);
             }
-            user.setRoles(roleSet);
         }
+
         return user;
     }
 }

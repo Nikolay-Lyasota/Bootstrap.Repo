@@ -14,6 +14,7 @@ import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,19 +50,18 @@ public class MainController {
 //    }
 
     @GetMapping(value = "/admin")
-    public String allUsers(@AuthenticationPrincipal User principal, Model model, User newUser) {
+    public String allUsers(@AuthenticationPrincipal User principal, Model model) {
+        model.addAttribute("deletedUser", new User());
+        model.addAttribute("newUser",new User());
         model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
         model.addAttribute("users", userService.getUsersList());
-        model.addAttribute("newUser",newUser);
         model.addAttribute("rolesList",List.of("USER","ADMIN"));
         return "admin";
     }
 
     @PostMapping("/add")
     public String newUser(UserDto userDto) {
-        System.out.println(userDto);
-        User newUser = userConverter.convertDtoToUser(userDto);
-        userService.saveUser(newUser);
+        userService.saveUser(userConverter.convertDtoToUser(userDto));
         return "redirect:/admin";
     }
 
