@@ -7,9 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!--Navbar-->
@@ -85,16 +82,18 @@
                                                 <!-- MODAL EDIT -->
 
                                                 <td>
-                                                    <a role="button" class="btn btn-info" data-toggle="modal" data-target="#editUser">Edit</a>
+                                                    <a role="button" id="editBtn" class="btn btn-info" data-toggle="modal" data-target="#editUser">Edit</a>
                                                 </td>
 
                                                 <!--MODAL DELETE-->
+<!--                                                <td>-->
+<!--                                                    <form th:action="@{user_delete(id=${user.id})}" th:method="post">-->
+<!--                                                        <button type="submit" class="btn btn-danger">Delete</button>-->
+<!--                                                    </form>-->
+<!--                                                </td>-->
                                                 <td>
-                                                    <form th:action="@{user_delete(id=${user.id})}" th:method="post">
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
+                                                    <a role="button" id="deleteBtn" class="btn btn-danger" data-toggle="modal" onclick="deleteUser()" data-target="#deleteUser">Delete</a>
                                                 </td>
-
                                                 <!--  MODALS  -->
 
 
@@ -112,7 +111,7 @@
                         <h4 class="card-header text-left font-weight-bold text-uppercase py-4">Add new user</h4>
                         <div class="card-body">
                             <p>
-                            <form th:action="@{/add}" method="post">
+                            <form th:action="@{create}" method="post">
                                 <div th:object="${newUser}">
                                     <p>
                                         <label for="name">Name</label>
@@ -141,7 +140,7 @@
                                 </div>
                                 </p>
                                 <p>
-                                    <input type="submit" class="btn btn-success" value="Add new user">
+                                    <input type="submit" class="btn btn-success" onclick="createUser()" value="Add new user">
                                 </p>
                             </form>
                             </p>
@@ -152,48 +151,19 @@
         </div>
     </div>
                    <!-- Modal body    -->
-    <!-- The Modal -->
+    <!-- The Modal EDIT -->
     <div class="modal fade" id="editUser">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">User edit</h4>
+                    <h4 class="modal-title">User edit ---</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form th:action="@{/user_update}" th:object="${user}"  method="post">
-                        <label for="id">Id</label>
-                        <input readonly type="number" th:name="userId" th:value="${user.id}" id="id" placeholder="Id"><br/>
-                        <label for="name">Name</label><br>
-                        <input type="text" th:field="*{name}" id="name" placeholder="Name"/><br>
-                        <label for="age">Age</label><br>
-                        <input type="number" th:field="*{age}" id="age" placeholder="Age"/><br>
-                        <label for="email">Email</label><br>
-                        <input type="text" th:field="*{email}" id="email" placeholder="Email"/><br><br>
-                        <div>
-                            <tr>
-                                <th>Roles:</th>
-                            </tr>
-                            <tr th:each="role : ${roles}">
-                                <td th:text="${role.role}"></td>
-                            </tr>
-                        </div>
-                        <div>
-                            <td>Add role to user</td>
-                            <td>
-                                <select th:name="selectedRole">
-                                    <option value="">Select role</option>
-                                    <option th:each="role : ${allRoles}"
-                                            th:text="${role.role}"/>
-                                </select>
-                            </td>
-                        </div>
-                        <input type="submit" value="Edit User">
-                    </form>
                 </div>
 
                 <!-- Modal footer -->
@@ -204,6 +174,65 @@
             </div>
         </div>
     </div>
+    <!-- The Modal DELETE -->
+    <div class="modal fade" id="deleteUser">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">User delete</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="modal-body">
+                        <div class="container">
+                            <form th:method="POST" th:action="@{update}" th:object="${deletedUser}" id="del">
+
+                                <p>
+                                    <label for="idUserDelete">Id:</label>
+                                    <input type="text" name="id" class="form-control" th:field="*{id}" placeholder="Id" id="idUserDelete" required="" disabled=""/>
+                                </p>
+                                <p>
+                                    <label for="usernameDelete">Name:</label>
+                                    <input type="text" name="name" class="form-control" th:field="*{name}" placeholder="name" id="usernameDelete"
+                                           required="" disabled=""/>
+                                </p>
+                                <p>
+                                    <label for="ageDelete">Age:</label>
+                                    <input type="text" name="age" class="form-control" th:field="*{age}" placeholder="age" id="ageDelete"
+                                           required="" disabled=""/>
+                                </p>
+                                <p>
+                                    <label for="emailDelete">Email:</label>
+                                    <input type="text" name="email" class="form-control" th:field="*{email}" placeholder="email" id="emailDelete"
+                                           required="" disabled=""/>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="submit" form="del" id="deleteButton" data-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-secondary" onclick="oneMore()" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    function oneMore() {
+        alert("one more")
+    }
+</script>
+<script src="main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
