@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="main.js" defer></script>
 </head>
 <body>
 <!--Navbar-->
@@ -114,28 +115,29 @@
                             <form th:action="@{create}" method="post">
                                 <div th:object="${newUser}">
                                     <p>
-                                        <label for="name">Name</label>
-                                        <input type="text" th:field="*{name}" id="name" placeholder="Name">
+                                        <label for="addName">Name</label>
+                                        <input type="text" th:field="*{name}" id="addName" placeholder="Name">
                                     </p>
                                     <p>
-                                        <label for="age">Age</label>
-                                        <input type="number" th:field="*{age}" id="age" placeholder=2>
+                                        <label for="addAge">Age</label>
+                                        <input type="number" th:field="*{age}" id="addAge" placeholder=2>
                                     </p>
                                     <p>
-                                        <label for="email">Email</label>
-                                        <input type="text" th:field="*{email}" id="email" placeholder="Email">
+                                        <label for="addEmail">Email</label>
+                                        <input type="text" th:field="*{email}" id="addEmail" placeholder="Email">
                                     </p>
                                     <p>
-                                        <label for="email">Password</label>
-                                        <input type="text" th:field="*{password}" id="password" placeholder="password">
+                                        <label for="addPassword">Password</label>
+                                        <input type="text" th:field="*{password}" id="addPassword" placeholder="password">
                                     </p>
                                 </div>
                                 <p>
                                 <div>
-                                    <label for="selectRoles">Select role:</label>
-                                    <select multiple size="2" name="roles" class="form-control" id="selectRoles">
+                                    <label for="addRoles">Select role:</label>
+                                    <select multiple size="2" name="roles" class="form-control" id="addRoles">
                                         <option value="ADMIN">ADMIN</option>
                                         <option value="USER">USER</option>
+<!--                                        <option th:each="role : ${rolesArray}" th:text="${role}"></option>-->
                                     </select>
                                 </div>
                                 </p>
@@ -227,12 +229,37 @@
 </div>
 <script>
     function oneMore() {
-        alert("one more")
+        // alert("function running")
+        let l = document.getElementById('test').value
+        alert(document.getElementById('usernameDelete').value)
     }
 </script>
-<script src="main.js"></script>
+<script>
+    function createUser() {
+        let rolesArray = []
+        let select = document.getElementById('addRoles')
+        for(let i = 0, len = select.options.length; i < len; i++) {
+            if(select.options[i].value) {
+                rolesArray.push(select.options[i].value)
+            }
+        }
+
+        let userDto = {
+            "name": document.getElementById('addName').value,
+            "age": document.getElementById('addAge').value,
+            "email": document.getElementById('addEmail').value,
+            "password": document.getElementById('addPassword').value,
+            "roles": rolesArray
+        }
+        let jsonUserDto = JSON.stringify(userDto)
+        alert(jsonUserDto)
+    }
+</script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</script>
 </body>
 </html>

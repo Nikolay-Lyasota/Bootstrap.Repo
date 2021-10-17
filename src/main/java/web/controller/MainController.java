@@ -51,7 +51,11 @@ public class MainController {
 
     @GetMapping(value = "/admin")
     public String allUsers(@AuthenticationPrincipal User principal, Model model) {
+        /// TODO: 17.10.2021 new Object User
+//        String[] rolesArray = {"USER","ADMIN"};
+//        model.addAttribute("rolesArray", rolesArray);
         model.addAttribute("deletedUser", new User());
+
         model.addAttribute("newUser",new User());
         model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
         model.addAttribute("users", userService.getUsersList());
