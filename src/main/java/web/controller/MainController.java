@@ -9,16 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import web.converter.UserConverter;
 import web.dto.PrincipalDto;
 import web.dto.UserDto;
-import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
 
-import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 public class MainController {
@@ -52,22 +48,20 @@ public class MainController {
     @GetMapping(value = "/admin")
     public String allUsers(@AuthenticationPrincipal User principal, Model model) {
         /// TODO: 17.10.2021 new Object User
-//        String[] rolesArray = {"USER","ADMIN"};
-//        model.addAttribute("rolesArray", rolesArray);
+        model.addAttribute("rolesToSelect", roleService.getAllRoles());
         model.addAttribute("deletedUser", new User());
-
         model.addAttribute("newUser",new User());
         model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
         model.addAttribute("users", userService.getUsersList());
-        model.addAttribute("rolesList",List.of("USER","ADMIN"));
+//        model.addAttribute("rolesList",List.of("USER","ADMIN"));
         return "admin";
     }
 
-    @PostMapping("/add")
-    public String newUser(UserDto userDto) {
-        userService.saveUser(userConverter.convertDtoToUser(userDto));
-        return "redirect:/admin";
-    }
+//    @PostMapping("/add")
+//    public String newUser(UserDto userDto) {
+//        userService.saveUser(userConverter.convertDtoToUser(userDto));
+//        return "redirect:/admin";
+//    }
 
     @GetMapping(value = "/user")
     public String currentUser(@AuthenticationPrincipal User principal, Model model) {

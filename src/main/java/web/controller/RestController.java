@@ -19,6 +19,7 @@ import web.service.RoleService;
 import web.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {

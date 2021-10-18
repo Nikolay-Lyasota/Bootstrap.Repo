@@ -60,7 +60,7 @@
                                 <h2 th:case="null">Users table is clear!</h2>
                                 <div th:case="*">
                                     <div class="card-body">
-                                        <table class="table table-striped">
+                                        <table class="table table-striped" id="allUsersTable">
                                             <thread>
                                                 <tr>
                                                     <th scope="col">Id</th>
@@ -135,9 +135,9 @@
                                 <div>
                                     <label for="addRoles">Select role:</label>
                                     <select multiple size="2" name="roles" class="form-control" id="addRoles">
-                                        <option value="ADMIN">ADMIN</option>
-                                        <option value="USER">USER</option>
-<!--                                        <option th:each="role : ${rolesArray}" th:text="${role}"></option>-->
+<!--                                        <option value="ADMIN">ADMIN</option>-->
+<!--                                        <option value="USER">USER</option>-->
+                                        <option th:each="role : ${rolesToSelect}" th:text="${role}"></option>
                                     </select>
                                 </div>
                                 </p>
@@ -235,31 +235,48 @@
     }
 </script>
 <script>
-    function createUser() {
+    async function createUser() {
         let rolesArray = []
         let select = document.getElementById('addRoles')
-        for(let i = 0, len = select.options.length; i < len; i++) {
-            if(select.options[i].value) {
+        for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].selected === true) {
                 rolesArray.push(select.options[i].value)
             }
         }
 
         let userDto = {
-            "name": document.getElementById('addName').value,
-            "age": document.getElementById('addAge').value,
-            "email": document.getElementById('addEmail').value,
-            "password": document.getElementById('addPassword').value,
-            "roles": rolesArray
-        }
+                "name": document.getElementById('addName').value,
+                "age": document.getElementById('addAge').value,
+                "email": document.getElementById('addEmail').value,
+                "password": document.getElementById('addPassword').value,
+                "roles": rolesArray
+            }
         let jsonUserDto = JSON.stringify(userDto)
-        alert(jsonUserDto)
+
+        try {
+            let response = fetch("/create", {
+                method: 'POST',
+                body: jsonUserDto,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            response.json()
+                .then(response => {
+                    console.log(response)
+                })
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+        // let reload =  document.getElementById("allUsersTable").contentWindow.location.reload()
+
     }
 </script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-</script>
 </body>
 </html>
