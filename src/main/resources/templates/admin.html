@@ -3,11 +3,10 @@
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
 <head>
-    <title>Admin page</title>
     <meta charset="utf-8">
+    <title>Admin page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="main.js" defer></script>
 </head>
 <body>
 <!--Navbar-->
@@ -43,6 +42,7 @@
 
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
+
                         <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
                     </li>
                     <li class="nav-item">
@@ -55,12 +55,12 @@
                 <div role="tabpanel" id="userstable" class="tab-pane active"><br>
                     <div class="card">
                         <h4 class="card-header text-left font-weight-bold text-uppercase py-4">All Users</h4>
-                        <div class="card-body">
+                        <div class="card-body" >
                             <div th:switch="${users}">
                                 <h2 th:case="null">Users table is clear!</h2>
                                 <div th:case="*">
                                     <div class="card-body">
-                                        <table class="table table-striped" id="allUsersTable">
+                                        <table class="table table-striped" id="refreshableTable">
                                             <thread>
                                                 <tr>
                                                     <th scope="col">Id</th>
@@ -74,7 +74,7 @@
                                             </thread>
                                             <tbody>
                                             <tr th:each="user : ${users}">
-                                                <td th:text="${user.id}"></td>
+                                                <td th:text="${user.id}" class="currentId"></td>
                                                 <td th:text="${user.name}"></td>
                                                 <td th:text="${user.age}"></td>
                                                 <td th:text="${user.email}"></td>
@@ -93,14 +93,17 @@
 <!--                                                    </form>-->
 <!--                                                </td>-->
                                                 <td>
-                                                    <a role="button" id="deleteBtn" class="btn btn-danger" data-toggle="modal" onclick="deleteUser()" data-target="#deleteUser">Delete</a>
+                                                    <a role="button" id="deleteBtn" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteUser">Delete</a>
                                                 </td>
                                                 <!--  MODALS  -->
-
 
                                             </tr>
                                             </tbody>
                                         </table>
+                                         <!--REFRESH BUTTON-->
+
+                                            <a role="button" id="refresh"  class="btn btn-warning" value="Refresh">Refresh</a>
+
                                     </div>
                                 </div>
                             </div>
@@ -110,9 +113,9 @@
                 <div role="tabpanel" id="newUser" class="tab-pane"><br>
                     <div class="card">
                         <h4 class="card-header text-left font-weight-bold text-uppercase py-4">Add new user</h4>
-                        <div class="card-body">
+                        <div class="card-body" id="refreshableUsersTable">
                             <p>
-                            <form th:action="@{create}" method="post">
+                            <form >
                                 <div th:object="${newUser}">
                                     <p>
                                         <label for="addName">Name</label>
@@ -142,7 +145,7 @@
                                 </div>
                                 </p>
                                 <p>
-                                    <input type="submit" class="btn btn-success" onclick="createUser()" value="Add new user">
+                                    <input type="submit" id="addUserButton" class="btn btn-success" value="Add new user">
                                 </p>
                             </form>
                             </p>
@@ -187,12 +190,14 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
-                <!-- Modal body -->
+                <!-- Modal body DELETABLE USER-->
+                <!-- Modal body DELETABLE USER-->
+
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="container">
+<!--                            <form th:method="POST" th:action="@{update}" th:object="${deletedUser}" id="del">-->
                             <form th:method="POST" th:action="@{update}" th:object="${deletedUser}" id="del">
-
                                 <p>
                                     <label for="idUserDelete">Id:</label>
                                     <input type="text" name="id" class="form-control" th:field="*{id}" placeholder="Id" id="idUserDelete" required="" disabled=""/>
@@ -220,63 +225,23 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button class="btn btn-danger" type="submit" form="del" id="deleteButton" data-dismiss="modal">Delete</button>
-                    <button type="button" class="btn btn-secondary" onclick="oneMore()" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
         </div>
     </div>
 </div>
-<script>
-    function oneMore() {
-        // alert("function running")
-        let l = document.getElementById('test').value
-        alert(document.getElementById('usernameDelete').value)
-    }
-</script>
-<script>
-    async function createUser() {
-        let rolesArray = []
-        let select = document.getElementById('addRoles')
-        for (let i = 0; i < select.options.length; i++) {
-            if (select.options[i].selected === true) {
-                rolesArray.push(select.options[i].value)
-            }
-        }
-
-        let userDto = {
-                "name": document.getElementById('addName').value,
-                "age": document.getElementById('addAge').value,
-                "email": document.getElementById('addEmail').value,
-                "password": document.getElementById('addPassword').value,
-                "roles": rolesArray
-            }
-        let jsonUserDto = JSON.stringify(userDto)
-
-        try {
-            let response = fetch("/create", {
-                method: 'POST',
-                body: jsonUserDto,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-            response.json()
-                .then(response => {
-                    console.log(response)
-                })
-        }
-        catch (e) {
-            console.log(e)
-        }
-
-        // let reload =  document.getElementById("allUsersTable").contentWindow.location.reload()
-
-    }
-</script>
+<!--<script>-->
+<!--    function oneMore() {-->
+<!--        // alert("function running")-->
+<!--        let l = document.getElementById('test').value-->
+<!--        alert(document.getElementById('usernameDelete').value)-->
+<!--    }-->
+<!--</script>-->
+<script src="main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>

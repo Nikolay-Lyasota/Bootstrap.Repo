@@ -53,7 +53,6 @@ public class MainController {
         model.addAttribute("newUser",new User());
         model.addAttribute("dto",new PrincipalDto(userService.findByUsername(principal.getUsername())));
         model.addAttribute("users", userService.getUsersList());
-//        model.addAttribute("rolesList",List.of("USER","ADMIN"));
         return "admin";
     }
 
@@ -71,20 +70,20 @@ public class MainController {
     }
 
 
-    @GetMapping("/user_edit")
-    public String editUserForm(@RequestParam Long id, ModelMap model) {
-        User user = userService.getUser(id);
-        model.addAllAttributes(Map.of("user", user, "roles", user.getRoles(), "allRoles", roleService.getAllRoles()));
-        return "user_edit";
-    }
-
-    @PostMapping("/user_update")
-    public String updateUser(@RequestParam(value = "userId") Long id,
-                             @ModelAttribute("user") User user,
-                             @RequestParam(value = "selectedRole", required = false) String selectedRole) {
-        userService.updateUser(user, selectedRole, id);
-        return "redirect:/admin";
-    }
+//    @GetMapping("/user_edit")
+//    public String editUserForm(@RequestParam Long id, ModelMap model) {
+//        User user = userService.getUser(id);
+//        model.addAllAttributes(Map.of("user", user, "roles", user.getRoles(), "allRoles", roleService.getAllRoles()));
+//        return "user_edit";
+//    }
+//
+//    @PostMapping("/user_update")
+//    public String updateUser(@RequestParam(value = "userId") Long id,
+//                             @ModelAttribute("user") User user,
+//                             @RequestParam(value = "selectedRole", required = false) String selectedRole) {
+//        userService.updateUser(user, selectedRole, id);
+//        return "redirect:/admin";
+//    }
 
     @PostMapping("/user_delete")
     public String removeUser(@RequestParam Long id) {
