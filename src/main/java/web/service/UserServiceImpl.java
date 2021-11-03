@@ -3,8 +3,8 @@ package web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
-import web.model.Role;
 import web.model.User;
 
 import java.util.List;
@@ -49,11 +49,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
+        if(userDao.getUser(user.getId()).getPassword().equals(user.getPassword())) {
+            user.setPassword(userDao.getUser(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getRoles().isEmpty()) {
+            user.setRoles(getUser(user.getId()).getRoles());
+        }
         userDao.updateUser(user);
     }
 
     @Override
+    @Transactional
     public void updateUser(User user, String role, Long id) {
         User hiberUser = getUser(id);
         hiberUser.setName(user.getName());

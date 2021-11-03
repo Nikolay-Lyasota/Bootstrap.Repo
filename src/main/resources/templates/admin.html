@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -43,7 +42,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
 
-                        <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
+                        <a class="nav-link active" id="hrefToTable" data-toggle="tab" href="#userstable">Users table</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#newUser">New User</a>
@@ -83,15 +82,10 @@
                                                 <!-- MODAL EDIT -->
 
                                                 <td>
-                                                    <a role="button" id="editBtn" class="btn btn-info" data-toggle="modal" data-target="#editUser">Edit</a>
+                                                    <a role="button" id="editBtn" class="btn btn-info edit" data-toggle="modal" data-target="#editUser">Edit</a>
                                                 </td>
 
                                                 <!--MODAL DELETE-->
-<!--                                                <td>-->
-<!--                                                    <form th:action="@{user_delete(id=${user.id})}" th:method="post">-->
-<!--                                                        <button type="submit" class="btn btn-danger">Delete</button>-->
-<!--                                                    </form>-->
-<!--                                                </td>-->
                                                 <td>
                                                     <a role="button" id="deleteBtn" class="btn btn-danger delete" data-toggle="modal" data-target="#deleteUser">Delete</a>
                                                 </td>
@@ -100,10 +94,6 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                         <!--REFRESH BUTTON-->
-
-                                            <a role="button" id="refresh"  class="btn btn-warning" value="Refresh">Refresh</a>
-
                                     </div>
                                 </div>
                             </div>
@@ -157,25 +147,62 @@
     </div>
                    <!-- Modal body    -->
     <!-- The Modal EDIT -->
+    <!-- The Modal EDIT -->
     <div class="modal fade" id="editUser">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">User edit ---</h4>
+                    <h4 class="modal-title">User edit</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
+                <!-- The Modal EDIT BODY-->
                 <!-- Modal body -->
-                <div class="modal-body">
+                <div class="modal-body" id="editModal">
+                    <div class="modal-body">
+                        <div class="container">
+
+                            <form id="edit">
+                                <p>
+                                    <label for="idUserEdit">Id:</label>
+                                    <input type="text" readonly name="id" class="form-control" placeholder="Id" id="idUserEdit" required="" disabled="disabled"/>
+                                </p>
+                                <p>
+                                    <label for="nameEdit">Name:</label>
+                                    <input type="text" name="Name" class="form-control" placeholder="name" id="nameEdit" required=""/>
+                                </p>
+                                <p>
+                                    <label for="ageEdit">Age:</label>
+                                    <input type="text" name="Age" class="form-control" placeholder="age" id="ageEdit" required="" />
+                                </p>
+                                <p>
+                                    <label for="emailEdit">Email:</label>
+                                    <input type="text" name="Email" class="form-control" placeholder="email" id="emailEdit" required="" />
+                                </p>
+                                <p>
+                                    <label for="passwordEdit">Password: </label>
+                                    <input type="password" name="Password" class="form-control" placeholder="password" id="passwordEdit" required=""/>
+                                </p>
+                                <p>
+                                <div>
+                                    <label for="addRoles">Select role:</label>
+                                    <select multiple size="2" name="roles" class="form-control" id="editRoles">
+                                        <option th:each="role : ${rolesToSelect}" th:text="${role}"></option>
+                                    </select>
+                                </div>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary edit" id="commitEdit" data-dismiss="modal">Edit</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -232,13 +259,6 @@
         </div>
     </div>
 </div>
-<!--<script>-->
-<!--    function oneMore() {-->
-<!--        // alert("function running")-->
-<!--        let l = document.getElementById('test').value-->
-<!--        alert(document.getElementById('usernameDelete').value)-->
-<!--    }-->
-<!--</script>-->
 <script src="main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

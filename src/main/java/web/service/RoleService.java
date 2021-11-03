@@ -16,7 +16,7 @@ public class RoleService {
     @Autowired
     private RoleDaoImpl roleDao;
 
-    private Map<String, Role> map = new WeakHashMap<>();
+    private final Map<String, Role> map = new WeakHashMap<>();
 
     public Role getRoleByName(String role) {
         Role thisRole = map.get(role);

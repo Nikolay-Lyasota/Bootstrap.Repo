@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.converter.UserConverter;
 import web.dto.UserDto;
+import web.dto.UserWithIdDto;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
@@ -31,7 +32,7 @@ public class RestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get")
+    @GetMapping("/getAll")
     public ResponseEntity<?> get() {
         return new ResponseEntity<>(userService.getUsersList(),HttpStatus.ACCEPTED);
     }
@@ -52,11 +53,9 @@ public class RestController {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
-
-
-//    @PostMapping("/new")
-//    public User create(@RequestBody User user) {
-//       return userService.saveUser(user);
-//
-//    }
+    @PostMapping("/patch")
+    public ResponseEntity<Void> patch(@RequestBody UserWithIdDto user) {
+        userService.updateUser(userConverter.toUser(user));
+        return ResponseEntity.ok().build();
+    }
 }

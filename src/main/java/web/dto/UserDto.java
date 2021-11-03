@@ -14,19 +14,13 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class UserDto {
 
-//    @NotBlank(message = "empty")
     private final String name;
 
-//    @NotBlank(message = "empty")
     private final int age;
 
-//    @NotBlank(message = "empty")
-//    @Email
     private final String email;
 
-//    @NotBlank(message = "empty")
     private final String password;
 
-//    @NotBlank
     private final String[] roles;
 }

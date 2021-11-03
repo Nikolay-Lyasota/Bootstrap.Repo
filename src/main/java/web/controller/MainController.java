@@ -85,10 +85,11 @@ public class MainController {
 //        return "redirect:/admin";
 //    }
 
-    @PostMapping("/user_delete")
-    public String removeUser(@RequestParam Long id) {
-        userService.deleteUser(id);
-        return "redirect:/admin";
-    }
+//    @PostMapping("/user_delete")
+//    public String removeUser(@RequestParam Long id) {
+//        userService.deleteUser(id);
+//        return "redirect:/admin";
+//    }
+
 }
 

@@ -9,6 +9,7 @@ import web.model.User;
 @RequiredArgsConstructor
 @Builder
 public class PrincipalDto {
+
     private final String email;
     private final String roles;
 
@@ -16,5 +17,4 @@ public class PrincipalDto {
         email = user.getEmail();
         roles = user.getRoles().toString().replaceAll("[\\[\\],]", "");
     }
-
 }

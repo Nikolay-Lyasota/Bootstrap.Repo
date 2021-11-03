@@ -42,7 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/registration","/all").permitAll()
                 .antMatchers("/login").anonymous()
-                // TODO: 14.10.2021 /GET
                 .antMatchers("/user").hasAuthority("USER")
                 .antMatchers("/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()

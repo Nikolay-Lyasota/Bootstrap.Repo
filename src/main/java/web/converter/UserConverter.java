@@ -4,18 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import web.dto.UserDto;
+import web.dto.UserWithIdDto;
 import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
+import web.service.UserService;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class UserConverter {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    UserService userService;
 
     public User convertDtoToUser(UserDto dto) {
         User user = new User();
@@ -35,7 +42,23 @@ public class UserConverter {
                 user.setRoles(roleSet);
             }
         }
-
         return user;
+    }
+
+    public User toUser(UserWithIdDto userDto) {
+       return User.builder()
+                .id(userDto.getId())
+                .age(userDto.getAge())
+                .name(userDto.getName())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .roles(convertRoles(userDto.getRoles()))
+                .build();
+    }
+
+    public Set<Role> convertRoles(String[] roles) {
+       return Arrays.stream(roles)
+                .map(roleService::getRoleByName)
+                .collect(Collectors.toSet());
     }
 }
