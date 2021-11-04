@@ -68,12 +68,11 @@ function getUserToUpdate() {
             fetch('http://localhost:8080/get/' + number)
                 .then((response) => {
                     response.json()
-                        .then((updatedUserJson) => {
-                            document.getElementById('idUserEdit').value = updatedUserJson.id
-                            document.getElementById('nameEdit').value = updatedUserJson.name
-                            document.getElementById('ageEdit').value = updatedUserJson.age
-                            document.getElementById('emailEdit').value = updatedUserJson.email
-                            document.getElementById('passwordEdit').value = updatedUserJson.password
+                        .then((updatingUserJson) => {
+                            document.getElementById('idUserEdit').value = updatingUserJson.id
+                            document.getElementById('nameEdit').value = updatingUserJson.name
+                            document.getElementById('ageEdit').value = updatingUserJson.age
+                            document.getElementById('emailEdit').value = updatingUserJson.email
                         })
                 })
         })
@@ -165,4 +164,3 @@ function removeUser() {
         })
         .then(() => jRefreshTableElement())
 }
-

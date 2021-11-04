@@ -8,6 +8,7 @@ import web.dao.UserDao;
 import web.model.User;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,14 +52,20 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        if(userDao.getUser(user.getId()).getPassword().equals(user.getPassword())) {
-            user.setPassword(userDao.getUser(user.getId()).getPassword());
+        User fromDb = userDao.getUser(user.getId());
+        if(user.getPassword().length() != 0) {
+            String password = user.getPassword();
+            String encodedPass = passwordEncoder.encode(password);
+            user.setPassword(encodedPass);
         } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            String fromDbPassword = fromDb.getPassword();
+            user.setPassword(fromDbPassword);
         }
+
         if (user.getRoles().isEmpty()) {
-            user.setRoles(getUser(user.getId()).getRoles());
+            user.setRoles(fromDb.getRoles());
         }
+
         userDao.updateUser(user);
     }
 
@@ -69,6 +76,7 @@ public class UserServiceImpl implements UserService {
         hiberUser.setName(user.getName());
         hiberUser.setAge(user.getAge());
         hiberUser.setEmail(user.getEmail());
+
         if (role != null) {
             hiberUser.getRoles().add(roleService.getRoleByName(role));
         }
