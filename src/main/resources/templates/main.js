@@ -1,22 +1,32 @@
-document.addEventListener('DOMContentLoaded', function () {
+// document.addEventListener('DOMContentLoaded', async function (event) {
+//     await event
+//     setListeners()
+// })
+
+$(document).ready(function () {
+    setListeners();
+});
+
+function setListeners() {
     getUserToUpdate()
     getUserToDelete()
-
     let addUserButton = document.getElementById('addUserButton')
     let prepareToDeleteButton = document.getElementById('deleteBtn')
     let removeButton = document.getElementById('deleteButton')
     let editButton = document.getElementById('editBtn')
     let commitEdit = document.getElementById('commitEdit')
 
+
     commitEdit.addEventListener('click', function () {
         commitUpdatedUser()
     })
 
-    editButton.addEventListener('click', function (event) {
+    editButton.addEventListener('click', function () {
         getUserToUpdate()
     })
 
-    removeButton.addEventListener('click', function () {
+    removeButton.addEventListener('click', function (event) {
+        event.preventDefault()
         removeUser()
     })
 
@@ -28,14 +38,14 @@ document.addEventListener('DOMContentLoaded', function () {
     prepareToDeleteButton.addEventListener('click', function () {
         getUserToDelete()
     })
-})
+}
 
 function jRefreshTableElement() {
-   $('#refreshableTable')
-        .load('http://localhost:8080/admin #refreshableTable')
-    console.log("table reloaded")
-    setTimeout(() => getUserToDelete(), 1000)
-    setTimeout(() => getUserToUpdate(), 1000)
+    $('#refreshableTable').load('http://localhost:8080/admin #refreshableTable', function () {
+        getUserToDelete()
+        getUserToUpdate()
+        console.log("table reloaded")
+    })
 }
 
 
@@ -54,6 +64,7 @@ function getUserToDelete() {
                             document.getElementById('ageDelete').value = deletedUserJson.age
                             document.getElementById('emailDelete').value = deletedUserJson.email
                         })
+
                 })
         })
     }
@@ -127,12 +138,9 @@ function commitUpdatedUser() {
             'Content-Type': 'application/json'
         }
     })
-        .then(response => {
-            console.log('err' + response)
-        })
+        .catch(err => console.log(err))
         .then(() => console.log('user update'))
         .then(() => jRefreshTableElement())
-        .catch(err => console.log(err))
 }
 
 
@@ -145,13 +153,14 @@ function commitNewUser() {
             'Content-Type': 'application/json'
         }
     })
+        .catch(err => console.log(err))
         .then(response => {
             console.log(response)
         })
         .then(() => jRefreshTableElement())
+
         .then(() => $('.nav-tabs a:first').tab('show'))
         .then(() => console.log('redirected'))
-        .catch(err => console.log(err))
 }
 
 function removeUser() {
