@@ -49,20 +49,20 @@ public class User implements UserDetails {
         return this.getName();
     }
 
-    public void update(User user) {
-        Field[] declaredFields = user.getClass().getDeclaredFields();
-        for (Field declaredField : declaredFields) {
-            declaredField.setAccessible(true);
-            try {
-                Object o = declaredField.get(user);
-                if (o != null) {
-                    declaredField.set(this, o);
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public void update(User user) {
+//        Field[] declaredFields = user.getClass().getDeclaredFields();
+//        for (Field declaredField : declaredFields) {
+//            declaredField.setAccessible(true);
+//            try {
+//                Object o = declaredField.get(user);
+//                if (o != null) {
+//                    declaredField.set(this, o);
+//                }
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     @Override
     public boolean isAccountNonExpired() {

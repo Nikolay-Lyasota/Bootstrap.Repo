@@ -1,22 +1,30 @@
 server:
-    port: 8080
+#    port: 8080
     error:
         include-message: always
         include-binding-errors: always
 
 spring:
     datasource:
-        driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/crud_schema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-        username: root
+        platform: postgres
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: postgres
         password: root
         initialization-mode: always
-
+    security:
+        oauth2:
+            client:
+                registration:
+                    google:
+                      client-id: 595914150900-tlt57qhsuot1att77k7kf473enttllr0.apps.googleusercontent.com
+                      client-secret: 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
+#                      redirect-uri: http://localhost:8080/user
     jpa:
         hibernate:
             ddl-auto: create-drop
         show-sql: true
         properties:
             hibernate:
-                dialect: org.hibernate.dialect.MySQL5Dialect
+                dialect: org.hibernate.dialect.PostgreSQLDialect
 

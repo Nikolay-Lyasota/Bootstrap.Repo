@@ -4,17 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import web.dao.UserDao;
+import web.dao.UserDaoData;
 import web.model.User;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserDaoData userDao;
 
     @Autowired
     private RoleService roleService;
@@ -24,24 +23,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsersList() {
-        return userDao.getUsersList();
+        return userDao.findAll();
     }
 
     @Override
     public User getUser(Long id) {
-        return userDao.getUser(id);
+        return userDao.getOne(id);
     }
 
     @Override
     public void saveUser(User user) {
         String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
-        userDao.saveUser(user);
+        userDao.save(user);
     }
 
     @Override
     public void deleteUser(Long id) {
-        userDao.deleteUser(id);
+        userDao.deleteById(id);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        User fromDb = userDao.getUser(user.getId());
+        User fromDb = userDao.getOne(user.getId());
         if(user.getPassword().length() != 0) {
             String password = user.getPassword();
             String encodedPass = passwordEncoder.encode(password);
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
             user.setRoles(fromDb.getRoles());
         }
 
-        userDao.updateUser(user);
+        userDao.save(user);
     }
 
     @Override
@@ -80,6 +79,6 @@ public class UserServiceImpl implements UserService {
         if (role != null) {
             hiberUser.getRoles().add(roleService.getRoleByName(role));
         }
-        userDao.updateUser(hiberUser);
+        userDao.save(hiberUser);
     }
 }

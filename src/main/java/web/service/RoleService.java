@@ -2,7 +2,7 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import web.dao.RoleDaoImpl;
+import web.dao.RoleDaoData;
 import web.model.Role;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.WeakHashMap;
 public class RoleService {
 
     @Autowired
-    private RoleDaoImpl roleDao;
+    private RoleDaoData roleDao;
 
     private final Map<String, Role> map = new WeakHashMap<>();
 
@@ -23,14 +23,13 @@ public class RoleService {
         if (Objects.nonNull(thisRole)) {
             return thisRole;
         }
-        Role roleByName = roleDao.getSingleRoleByName(role);
+        Role roleByName = roleDao.findByRole(role);
         map.put(role, roleByName);
         return roleByName;
     }
 
     public List<Role> getAllRoles() {
-        return roleDao.getAllRoles();
+        return roleDao.getAllByRole();
     }
-
 }
 
