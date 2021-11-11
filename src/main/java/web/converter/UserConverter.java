@@ -19,10 +19,7 @@ import java.util.stream.Collectors;
 public class UserConverter {
 
     @Autowired
-    RoleService roleService;
-
-    @Autowired
-    UserService userService;
+    private RoleService roleService;
 
     public User convertDtoToUser(UserDto dto) {
         User user = new User();

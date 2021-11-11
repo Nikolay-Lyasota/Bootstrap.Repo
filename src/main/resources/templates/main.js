@@ -158,7 +158,6 @@ function commitNewUser() {
             console.log(response)
         })
         .then(() => jRefreshTableElement())
-
         .then(() => $('.nav-tabs a:first').tab('show'))
         .then(() => console.log('redirected'))
 }

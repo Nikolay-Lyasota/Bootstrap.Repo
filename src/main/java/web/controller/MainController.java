@@ -25,9 +25,6 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserConverter userConverter;
-
     @GetMapping(value = "/login")
     public String getLoginPage() {
         return "login";

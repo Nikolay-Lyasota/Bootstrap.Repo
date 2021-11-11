@@ -1,13 +1,8 @@
 package web.dto;
 
-import com.sun.istack.NotNull;
-import lombok.*;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import javax.persistence.Entity;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 
 @Data
 @Getter
