@@ -11,12 +11,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.preauth.x509.X509PrincipalExtractor;
 import web.hanlder.SuccessHandler;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     private final SuccessHandler successHandler;
     private final UserDetailsService userDetailsService;
 
@@ -40,17 +42,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration","/all").permitAll()
+                .antMatchers("/registration","/all","/getPrincipal").permitAll()
                 .antMatchers("/login").anonymous()
                 .antMatchers("/user").hasAuthority("USER")
+                .antMatchers("/user","/admin").authenticated()
                 .antMatchers("/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login")
+
                 .and()
-                .formLogin().loginPage("/login")
+                .oauth2Login().loginPage("/login")
+
                 .successHandler(successHandler)
-//                .and()
-//                .oauth2Login()
+//                .formLogin().loginPage("/login")
+//                .successHandler(successHandler)
                 .and()
                 .logout();
     }
+
 }

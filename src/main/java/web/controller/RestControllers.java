@@ -11,10 +11,11 @@ import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+@RestController
+public class RestControllers {
 
     @Autowired
     UserService userService;
@@ -34,7 +35,7 @@ public class RestController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> get() {
-        return new ResponseEntity<>(userService.getUsersList(),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.getUsersList(), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/all")
@@ -58,4 +59,19 @@ public class RestController {
         userService.updateUser(userConverter.toUser(user));
         return ResponseEntity.ok().build();
     }
+
+    @RequestMapping("/oauth")
+    public ResponseEntity<Void> savePrincipal(Principal principal) {
+        for (int i = 0; i < 30; i++) {
+            System.out.println(principal.getName());
+        }
+        return ResponseEntity.ok().build();
+    }
+//
+//    @GetMapping(value = "/user")
+//    public ResponseEntity<?> usersPage(@AuthenticationPrincipal User principal, Model model) {
+//        System.out.println("USER!");
+//        return ResponseEntity.ok().build();
+//    }
+
 }

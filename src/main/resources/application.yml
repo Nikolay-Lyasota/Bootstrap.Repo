@@ -17,9 +17,21 @@ spring:
             client:
                 registration:
                     google:
-                      client-id: 595914150900-tlt57qhsuot1att77k7kf473enttllr0.apps.googleusercontent.com
-                      client-secret: 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
-#                      redirect-uri: http://localhost:8080/user
+                      clientId: 106286138287-s2j6k6dfksf5b9megsc54slm97pd544u.apps.googleusercontent.com
+                      clientSecret: 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
+                      clientAuthtnticationScheme: form
+                      authenticationScheme: query
+                      scope: profile, email
+
+                      redirectUri: http://localhost:8080/oauth
+                      userAuthorizationUri: http://accoutns.google.com/o/oauth2/v2/auth
+
+                      accessTokenUri: http://www.googleapis.com/oauth2/v3/token
+
+                      rokenName: oauth_token
+
+                      userInfoUri: http://www.googleapis.com/userinfo/v2/me
+
     jpa:
         hibernate:
             ddl-auto: create-drop
