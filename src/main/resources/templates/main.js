@@ -53,9 +53,9 @@ function getUserToDelete() {
     let selector = document.getElementsByClassName('btn btn-danger delete')
     for (let i = 0; i < selector.length; i++) {
         selector[i].addEventListener('click', () => {
-            let number = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
-            console.log(number + ' id to delete')
-            fetch('http://localhost:8080/get/' + number)
+            let id = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
+            console.log(id + ' id to delete')
+            fetch('http://localhost:8080/get/' +id)
                 .then((response) => {
                     response.json()
                         .then((deletedUserJson) => {

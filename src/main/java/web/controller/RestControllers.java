@@ -82,7 +82,7 @@ public ResponseEntity<Void> create(@RequestBody UserDto dtoUser) {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
