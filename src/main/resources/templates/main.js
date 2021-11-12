@@ -55,7 +55,10 @@ function getUserToDelete() {
         selector[i].addEventListener('click', () => {
             let id = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
             console.log(id + ' id to delete')
-            fetch('http://localhost:8080/get/' +id)
+            let url = new URL('http://localhost:8080/get/')
+            let param = {id : id}
+            url.search = new URLSearchParams(param).toString()
+            fetch(url)
                 .then((response) => {
                     response.json()
                         .then((deletedUserJson) => {
@@ -74,9 +77,12 @@ function getUserToUpdate() {
     let selector = document.getElementsByClassName('btn btn-info edit')
     for (let i = 0; i < selector.length; i++) {
         selector[i].addEventListener('click', () => {
-            let number = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
-            console.log(number + ' id to edit')
-            fetch('http://localhost:8080/get/' + number)
+            let id = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
+            console.log(id + ' id to edit')
+            let url = new URL('http://localhost:8080/get/')
+            let param = {id : id}
+            url.search = new URLSearchParams(param).toString()
+            fetch(url)
                 .then((response) => {
                     response.json()
                         .then((updatingUserJson) => {
@@ -164,7 +170,10 @@ function commitNewUser() {
 
 function removeUser() {
     let id = document.getElementById('idUserDelete').value
-    fetch('http://localhost:8080/delete/' + id, {
+    let url = new URL('http://localhost:8080/delete/')
+    let param = {id : id}
+    url.search = new URLSearchParams(param).toString()
+    fetch(url, {
         method: 'DELETE'
     })
         .then(() => {
