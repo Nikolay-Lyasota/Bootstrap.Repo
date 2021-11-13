@@ -12,7 +12,7 @@ import web.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/users")
 public class RestControllers {
 
     @Autowired
