@@ -55,10 +55,7 @@ function getUserToDelete() {
         selector[i].addEventListener('click', () => {
             let id = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
             console.log(id + ' id to delete')
-            let url = new URL('http://localhost:8080/get/')
-            let param = {id : id}
-            url.search = new URLSearchParams(param).toString()
-            fetch(url)
+            fetch('/api/users/get/' + id)
                 .then((response) => {
                     response.json()
                         .then((deletedUserJson) => {
@@ -79,10 +76,7 @@ function getUserToUpdate() {
         selector[i].addEventListener('click', () => {
             let id = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
             console.log(id + ' id to edit')
-            let url = new URL('http://localhost:8080/get/')
-            let param = {id : id}
-            url.search = new URLSearchParams(param).toString()
-            fetch(url)
+            fetch('/api/users/get/' + id)
                 .then((response) => {
                     response.json()
                         .then((updatingUserJson) => {
@@ -137,7 +131,7 @@ function updateUser() {
 
 function commitUpdatedUser() {
     let patchedUser = updateUser()
-    fetch('http://localhost:8080/patch', {
+    fetch('/api/users/patch', {
         method: 'POST',
         body: patchedUser,
         headers: {
@@ -152,7 +146,7 @@ function commitUpdatedUser() {
 
 function commitNewUser() {
     let newUser = createUser()
-    fetch('http://localhost:8080/create', {
+    fetch('/api/users/create', {
         method: 'POST',
         body: newUser,
         headers: {
@@ -170,10 +164,7 @@ function commitNewUser() {
 
 function removeUser() {
     let id = document.getElementById('idUserDelete').value
-    let url = new URL('http://localhost:8080/delete/')
-    let param = {id : id}
-    url.search = new URLSearchParams(param).toString()
-    fetch(url, {
+    fetch('/api/users/delete/' + id, {
         method: 'DELETE'
     })
         .then(() => {

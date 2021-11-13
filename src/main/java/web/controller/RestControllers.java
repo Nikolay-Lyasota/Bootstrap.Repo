@@ -33,14 +33,14 @@ public class RestControllers {
         return ResponseEntity.ok(userService.getUsersList());
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> delete(@RequestParam("id") Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping("/get")
-    public ResponseEntity<User> getUser(@RequestParam("id") Long id) {
+    @RequestMapping("/get/{id}")
+    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
