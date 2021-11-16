@@ -132,7 +132,7 @@ function updateUser() {
 function commitUpdatedUser() {
     let patchedUser = updateUser()
     fetch('/api/users/patch', {
-        method: 'POST',
+        method: 'PUT',
         body: patchedUser,
         headers: {
             'Content-Type': 'application/json'

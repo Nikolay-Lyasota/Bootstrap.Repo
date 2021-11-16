@@ -44,7 +44,7 @@ public class RestControllers {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
-    @PostMapping("/patch")
+    @PutMapping("/put")
     public ResponseEntity<Void> patch(@RequestBody UserWithIdDto user) {
         userService.updateUser(userConverter.toUser(user));
         return ResponseEntity.ok().build();
