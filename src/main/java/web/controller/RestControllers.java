@@ -28,23 +28,23 @@ public class RestControllers {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/usersList")
     public ResponseEntity<List<User>> get() {
         return ResponseEntity.ok(userService.getUsersList());
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
-    @PutMapping("/put")
+    @PutMapping("/id")
     public ResponseEntity<Void> patch(@RequestBody UserWithIdDto user) {
         userService.updateUser(userConverter.toUser(user));
         return ResponseEntity.ok().build();

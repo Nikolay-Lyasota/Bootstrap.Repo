@@ -55,7 +55,7 @@ function getUserToDelete() {
         selector[i].addEventListener('click', () => {
             let id = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
             console.log(id + ' id to delete')
-            fetch('/api/users/get/' + id)
+            fetch('/api/users/' + id)
                 .then((response) => {
                     response.json()
                         .then((deletedUserJson) => {
@@ -76,7 +76,7 @@ function getUserToUpdate() {
         selector[i].addEventListener('click', () => {
             let id = parseInt(selector[i].parentElement.parentElement.innerText.split('')[0])
             console.log(id + ' id to edit')
-            fetch('/api/users/get/' + id)
+            fetch('/api/users/' + id)
                 .then((response) => {
                     response.json()
                         .then((updatingUserJson) => {
@@ -131,7 +131,7 @@ function updateUser() {
 
 function commitUpdatedUser() {
     let patchedUser = updateUser()
-    fetch('/api/users/patch', {
+    fetch('/api/users/id', {
         method: 'PUT',
         body: patchedUser,
         headers: {
@@ -164,7 +164,7 @@ function commitNewUser() {
 
 function removeUser() {
     let id = document.getElementById('idUserDelete').value
-    fetch('/api/users/delete/' + id, {
+    fetch('/api/users/' + id, {
         method: 'DELETE'
     })
         .then(() => {
