@@ -131,7 +131,7 @@ function updateUser() {
 
 function commitUpdatedUser() {
     let patchedUser = updateUser()
-    fetch('/api/users/id', {
+    fetch('/api/users/', {
         method: 'PUT',
         body: patchedUser,
         headers: {
@@ -146,7 +146,7 @@ function commitUpdatedUser() {
 
 function commitNewUser() {
     let newUser = createUser()
-    fetch('/api/users/create', {
+    fetch('/api/users/', {
         method: 'POST',
         body: newUser,
         headers: {

@@ -22,13 +22,13 @@ public class RestControllers {
     private UserConverter userConverter;
 
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Void> create(@RequestBody UserDto dtoUser) {
         userService.saveUser(userConverter.convertDtoToUser(dtoUser));
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/usersList")
+    @GetMapping
     public ResponseEntity<List<User>> get() {
         return ResponseEntity.ok(userService.getUsersList());
     }
@@ -44,7 +44,7 @@ public class RestControllers {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
-    @PutMapping("/id")
+    @PutMapping
     public ResponseEntity<Void> patch(@RequestBody UserWithIdDto user) {
         userService.updateUser(userConverter.toUser(user));
         return ResponseEntity.ok().build();
