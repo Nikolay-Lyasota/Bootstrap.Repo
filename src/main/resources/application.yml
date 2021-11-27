@@ -23,12 +23,12 @@ spring:
                       authenticationScheme: query
                       scope: profile, email
 
-                      redirectUri: http://localhost:8080/oauth
-                      userAuthorizationUri: http://accoutns.google.com/o/oauth2/v2/auth
+                      redirectUri: http://localhost:8080/oauth2/authorization/google
+                      userAuthorizationUri: http://accounts.google.com/o/oauth2/v2/auth
 
                       accessTokenUri: http://www.googleapis.com/oauth2/v3/token
 
-                      rokenName: oauth_token
+                      tokenName: oauth_token
 
                       userInfoUri: http://www.googleapis.com/userinfo/v2/me
 

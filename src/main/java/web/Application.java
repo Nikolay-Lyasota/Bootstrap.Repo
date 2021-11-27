@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @SpringBootApplication
 @EnableWebSecurity(debug = true)
+
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

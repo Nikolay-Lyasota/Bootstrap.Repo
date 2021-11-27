@@ -11,17 +11,24 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.preauth.x509.X509PrincipalExtractor;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import web.dao.UserDaoData;
 import web.hanlder.SuccessHandler;
+import web.model.User;
+import web.service.UserService;
+
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private final SuccessHandler successHandler;
     private final UserDetailsService userDetailsService;
-
+    private final UserDaoData repository;
     @Lazy
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,22 +49,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration","/all","/getPrincipal").permitAll()
+                .antMatchers("/registration", "/all", "/getPrincipal").permitAll()
                 .antMatchers("/login").anonymous()
                 .antMatchers("/user").hasAuthority("USER")
-                .antMatchers("/user","/admin").authenticated()
+                .antMatchers("/user", "/admin").authenticated()
                 .antMatchers("/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login")
 
-                .and()
-                .oauth2Login().loginPage("/login")
-
                 .successHandler(successHandler)
+                .and()
+                .logout()
+                .and()
+                .oauth2Login(oauth2 -> {
+                    oauth2.userInfoEndpoint(userInfoEndpointConfig -> {
+                        userInfoEndpointConfig.userService(oauthUserService());
+                    });
+                }).oauth2Login().redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig.baseUri("/oauth2/authorization/google"));
 //                .formLogin().loginPage("/login")
 //                .successHandler(successHandler)
-                .and()
-                .logout();
+    }
+
+    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauthUserService() {
+        DefaultOAuth2UserService oauthService = new DefaultOAuth2UserService();
+        return request -> {
+            OAuth2User oAuth2User = oauthService.loadUser(request);
+            Map<String, Object> attributes = oAuth2User.getAttributes();
+            User user = new User();
+            user.setEmail((String) attributes.get("email"));
+            user.setName((String) attributes.get("name"));
+            repository.save(user);
+            return oAuth2User;
+        };
     }
 
 }
